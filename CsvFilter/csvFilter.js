@@ -8,6 +8,9 @@ function _create () {
     if (lineSplit[4] !== '' && lineSplit[5] !== '') {
       return [titles]
     }
+    if (lineSplit[7] !== '' && lineSplit[8] !== '') {
+      return [titles]
+    }
     return [titles, line]
   }
 
@@ -25,7 +28,7 @@ function _create () {
 //        Si algún neto no está bien calculado la línea se queda fuera.
 
 // -(/) Un fichero con una sola factura donde todo es correcto, debería producir como salida la misma línea
-// - Un fichero con una sola factura donde IVA e IGIC están rellenos, debería eliminar la línea
+// - (/) Un fichero con una sola factura donde IVA e IGIC están rellenos, debería eliminar la línea
 // - Un fichero con una sola factura donde el neto está mal calculado, debería ser eliminada
 // - Un fichero con una sola factura donde CIF y NIF están rellenos, debería eliminar la línea
 // - Si el número de factura se repite en varias líneas, se eliminan todas ellas (sin dejar ninguna línea).
