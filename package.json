@@ -2,7 +2,7 @@
   "name": "js",
   "version": "1.0.0",
   "description": "",
-  "main": "motionSensor.js",
+  "main": "videoSurveillance/motionSensor.js",
   "dependencies": {
     "jest": "^29.5.0"
   },

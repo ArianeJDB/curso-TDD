@@ -1,4 +1,4 @@
-import {MotionSensor} from "../motionSensor.js";
+import {MotionSensor} from "./motionSensor.js";
 import {VideoRecorder} from "./videoRecorder.js";
 
 
