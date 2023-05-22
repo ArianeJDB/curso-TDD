@@ -7,6 +7,9 @@ function _create () {
     if (line === '') {
       return []
     }
+    if(titles === '') {
+      return []
+    }
     const lineSplit = line.split(',')
     if (lineSplit[4] !== '' && lineSplit[5] !== '') {
       return [titles]
@@ -36,4 +39,4 @@ function _create () {
 // - (/)Un fichero con una sola factura donde CIF y NIF están rellenos, debería eliminar la línea
 // - Si el número de factura se repite en varias líneas, se eliminan todas ellas (sin dejar ninguna línea).
 // - (/)Una lista vacía producirá una lista vacía de salida
-// - Un fichero de una sola línea es incorrecto porque no tiene cabecera
+// - (/)Un fichero de una sola línea es incorrecto porque no tiene cabecera ¿qué devuelve?
