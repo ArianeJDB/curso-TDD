@@ -38,5 +38,14 @@ describe('CSV Filter', () => {
 
             expect(result).toStrictEqual([titles])
         });
+
+        test('returns [] when line is empty', async () => {
+            const titles = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
+            const line = ''
+
+            const result = csvFilter.filter(titles, line)
+
+            expect(result).toStrictEqual([])
+        });
     });
 });
