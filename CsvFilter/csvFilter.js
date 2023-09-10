@@ -4,17 +4,22 @@ export const CsvFilter = {
 
 function _create () {
   function filter (titles, line) {
+    const lineSplit = line.split(',')
+    const iva = lineSplit[4]
+    const igic = lineSplit[5]
+    const cif = lineSplit[7]
+    const nif = lineSplit[8]
+
     if (line === '') {
       return []
     }
     if(titles === '') {
       return []
     }
-    const lineSplit = line.split(',')
-    if (lineSplit[4] !== '' && lineSplit[5] !== '') {
+    if (iva !== '' && igic !== '') {
       return [titles]
     }
-    if (lineSplit[7] !== '' && lineSplit[8] !== '') {
+    if (cif !== '' && nif !== '') {
       return [titles]
     }
     return [titles, line]
