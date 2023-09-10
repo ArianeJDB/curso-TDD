@@ -5,8 +5,10 @@ export const CsvFilter = {
 function _create () {
   function filter (titles, line) {
     const lineSplit = line.split(',')
-    const iva = lineSplit[4]
-    const igic = lineSplit[5]
+    const bruto = parseInt(lineSplit[2])
+    const neto = parseInt(lineSplit[3])
+    const iva = lineSplit[4] === '' ? 0 : parseInt(lineSplit[4])
+    const igic = lineSplit[5] === '' ? 0 : parseInt(lineSplit[5])
     const cif = lineSplit[7]
     const nif = lineSplit[8]
 
@@ -16,15 +18,27 @@ function _create () {
     if(titles === '') {
       return []
     }
-    if (iva !== '' && igic !== '') {
+    if (iva !== 0 && igic !== 0) {
       return [titles]
     }
     if (cif !== '' && nif !== '') {
       return [titles]
     }
+    if (calculateNeto({bruto, iva, igic}) !== neto ) {
+      return [titles]
+    }
+
     return [titles, line]
   }
 
+  function calculateNeto({bruto, iva, igic }) {
+    const tax = iva === 0 ? igic : iva
+    const taxInDecimal = tax / 100
+    const brutoTaxApplied = bruto * taxInDecimal
+
+    return bruto - brutoTaxApplied
+
+  }
   return {
     filter
   }
@@ -40,7 +54,7 @@ function _create () {
 
 // -(/) Un fichero con una sola factura donde todo es correcto, debería producir como salida la misma línea
 // - (/) Un fichero con una sola factura donde IVA e IGIC están rellenos, debería eliminar la línea
-// - Un fichero con una sola factura donde el neto está mal calculado, debería ser eliminada la línea
+// - (/)Un fichero con una sola factura donde el neto está mal calculado, debería ser eliminada la línea
 // - (/)Un fichero con una sola factura donde CIF y NIF están rellenos, debería eliminar la línea
 // - Si el número de factura se repite en varias líneas, se eliminan todas ellas (sin dejar ninguna línea).
 // - (/)Una lista vacía producirá una lista vacía de salida
