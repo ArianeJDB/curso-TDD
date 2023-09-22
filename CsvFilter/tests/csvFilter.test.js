@@ -2,87 +2,86 @@ import {CsvFilter} from "../csvFilter.js";
 
 describe('CSV Filter', () => {
     const csvFilter = CsvFilter.create()
-    describe('when file has only recipe', () => {
-        test('returns the same line when recipe is correct', async () => {
-            const titles = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
-            const line = '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,'
+    describe('when file has only recipe and', () => {
+        test('recipe is correct, returns the same row ', async () => {
+            const header = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
+            const row = '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,'
 
-            const result = csvFilter.filter(titles, line)
+            const result = csvFilter.filter(header, row)
 
-            expect(result).toStrictEqual([titles, line])
+            expect(result).toStrictEqual([header, row])
         });
 
-        test('returns [] when titles is empty', async () => {
-            const titles = ''
-            const line = '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,N789789'
+        test('header is empty, returns [] ', async () => {
+            const header = ''
+            const row = '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,N789789'
 
-            const result = csvFilter.filter(titles, line)
+            const result = csvFilter.filter(header, row)
 
             expect(result).toStrictEqual([])
         });
 
+        test('row is empty, returns [] ', async () => {
+            const header = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
+            const row = ''
 
-        test('returns [] when line is empty', async () => {
-            const titles = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
-            const line = ''
-
-            const result = csvFilter.filter(titles, line)
+            const result = csvFilter.filter(header, row)
 
             expect(result).toStrictEqual([])
         });
 
-        test('removes the line when there is IVA and IGIC', async () => {
-            const titles = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
-            const line = '1,02/05/2021,1000,790,21,4,ACER Laptop,B76430134,'
+        test('there is IVA and IGIC, removes the row', async () => {
+            const header = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
+            const row = '1,02/05/2021,1000,790,21,4,ACER Laptop,B76430134,'
 
-            const result = csvFilter.filter(titles, line)
+            const result = csvFilter.filter(header, row)
 
-            expect(result).toStrictEqual([titles])
+            expect(result).toStrictEqual([header])
         });
 
-        test('removes the line when there is not IVA nor IGIC', async () => {
-            const titles = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
-            const line = '1,02/05/2021,1000,790,,,ACER Laptop,B76430134,'
+        test('there is not IVA nor IGIC, removes the row ', async () => {
+            const header = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
+            const row = '1,02/05/2021,1000,790,,,ACER Laptop,B76430134,'
 
-            const result = csvFilter.filter(titles, line)
+            const result = csvFilter.filter(header, row)
 
-            expect(result).toStrictEqual([titles])
+            expect(result).toStrictEqual([header])
         });
 
-        test('removes the line when IGIC is not a number', async () => {
-            const titles = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
-            const line = '1,02/05/2021,1000,790,,er,ACER Laptop,B76430134,'
+        test('IGIC is not a number, removes the row', async () => {
+            const header = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
+            const row = '1,02/05/2021,1000,790,,er,ACER Laptop,B76430134,'
 
-            const result = csvFilter.filter(titles, line)
+            const result = csvFilter.filter(header, row)
 
-            expect(result).toStrictEqual([titles])
+            expect(result).toStrictEqual([header])
         });
 
-        test('removes the line when IVA is not a number', async () => {
-            const titles = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
-            const line = '1,02/05/2021,1000,790,vhj,,ACER Laptop,B76430134,'
+        test('IVA is not a number, removes the row', async () => {
+            const header = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
+            const row = '1,02/05/2021,1000,790,vhj,,ACER Laptop,B76430134,'
 
-            const result = csvFilter.filter(titles, line)
+            const result = csvFilter.filter(header, row)
 
-            expect(result).toStrictEqual([titles])
+            expect(result).toStrictEqual([header])
         });
 
-        test('removes the line when neto is calculated wrong', async () => {
-            const titles = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
-            const line = '1,02/05/2021,1000,790,,4,ACER Laptop,B76430134,'
+        test('neto is calculated wrong, removes the row', async () => {
+            const header = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
+            const row = '1,02/05/2021,1000,790,,4,ACER Laptop,B76430134,'
 
-            const result = csvFilter.filter(titles, line)
+            const result = csvFilter.filter(header, row)
 
-            expect(result).toStrictEqual([titles])
+            expect(result).toStrictEqual([header])
         });
 
-        test('removes the line when there is CIF and NIF', async () => {
-            const titles = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
-            const line = '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,N789789'
+        test('there is CIF and NIF, removes the row', async () => {
+            const header = 'Num_factura, Fecha, Bruto, Neto, IVA, IGIC, Concepto, CIF_cliente, NIF_cliente'
+            const row = '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,N789789'
 
-            const result = csvFilter.filter(titles, line)
+            const result = csvFilter.filter(header, row)
 
-            expect(result).toStrictEqual([titles])
+            expect(result).toStrictEqual([header])
         });
     });
 });
