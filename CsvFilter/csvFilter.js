@@ -3,8 +3,8 @@ export const CsvFilter = {
 }
 
 function _create () {
-  function filter (titles, line) {
-    const lineSplit = line.split(',')
+  function filter ({header, row}) {
+    const lineSplit = row.split(',')
     const bruto = parseInt(lineSplit[2])
     const neto = parseInt(lineSplit[3])
     const iva = lineSplit[4] === '' ? 0 : parseInt(lineSplit[4])
@@ -12,27 +12,27 @@ function _create () {
     const cif = lineSplit[7]
     const nif = lineSplit[8]
 
-    if (line === '' || titles === '') {
+    if (row === '' || header === '') {
       return []
     }
 
     if(isNaN(igic) || isNaN(iva)){
-      return [titles]
+      return [header]
     }
 
     if (iva !== 0 && igic !== 0) {
-      return [titles]
+      return [header]
     }
 
     if (cif !== '' && nif !== '') {
-      return [titles]
+      return [header]
     }
 
     if (calculateNeto({bruto, iva, igic}) !== neto ) {
-      return [titles]
+      return [header]
     }
 
-    return [titles, line]
+    return [header, row]
   }
 
   function calculateNeto({bruto, iva, igic }) {
