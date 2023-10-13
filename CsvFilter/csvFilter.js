@@ -3,14 +3,14 @@ export const CsvFilter = {
 }
 
 function _create () {
-  function filter ({header, row}) {
-    const final = []
-    if(Array.isArray(row)) {
-      if (!row.length || !header.length) {
+  function filter ({header, rows}) {
+    const finalRows = []
+      if (!rows.length || !header.length) {
         return []
       }
-      row.forEach(item => {
-        const lineSplit = item.split(',')
+
+      rows.forEach((row, index) => {
+        const lineSplit = row.split(',')
         const iva = lineSplit[4] === '' ? 0 : parseInt(lineSplit[4])
         const igic = lineSplit[5] === '' ? 0 : parseInt(lineSplit[5])
         const bruto = parseInt(lineSplit[2])
@@ -19,42 +19,23 @@ function _create () {
         const nif = lineSplit[8]
 
         if(isNaN(igic) || isNaN(iva)){
-          return [header]
+          return [header, finalRows]
         }
 
         if ((iva !== 0 && igic !== 0) || iva === 0 && igic === 0) {
-          console.log('no tiendo')
-          return [header, final]
+          return [header, finalRows]
         }
 
         if (calculateNeto({bruto, iva, igic}) !== neto ) {
-          return [header, final]
+          return [header, finalRows]
         }
-        final.push(row)
+
+        if (cif !== '' && nif !== '') {
+          return [header, finalRows]
+        }
+        finalRows.push(row)
       })
-      return [header, final]
-    }
-    return
-    const lineSplit = row.split(',')
-    const bruto = parseInt(lineSplit[2])
-    const neto = parseInt(lineSplit[3])
-    const iva = lineSplit[4] === '' ? 0 : parseInt(lineSplit[4])
-    const igic = lineSplit[5] === '' ? 0 : parseInt(lineSplit[5])
-    const cif = lineSplit[7]
-    const nif = lineSplit[8]
-
-
-
-
-    if (cif !== '' && nif !== '') {
-      return [header]
-    }
-
-    if (calculateNeto({bruto, iva, igic}) !== neto ) {
-      return [header]
-    }
-
-    return [header, row]
+      return [header, finalRows]
   }
 
   function calculateNeto({bruto, iva, igic }) {
@@ -68,5 +49,3 @@ function _create () {
     filter
   }
 }
-
-//varias rows
