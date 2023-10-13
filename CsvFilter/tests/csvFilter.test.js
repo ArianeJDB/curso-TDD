@@ -70,11 +70,11 @@ describe('CSV Filter', () => {
         });
 
         test('there is CIF and NIF, removes the row', async () => {
-            const row = '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,N789789'
+            const row = ['1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,N789789']
 
             const result = csvFilter.filter({header, row})
 
-            expect(result).toStrictEqual([header])
+            expect(result).toStrictEqual([header, []])
         });
     })
 

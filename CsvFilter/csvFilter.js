@@ -15,6 +15,8 @@ function _create () {
         const igic = lineSplit[5] === '' ? 0 : parseInt(lineSplit[5])
         const bruto = parseInt(lineSplit[2])
         const neto = parseInt(lineSplit[3])
+        const cif = lineSplit[7]
+        const nif = lineSplit[8]
 
         if(isNaN(igic) || isNaN(iva)){
           return [header]
