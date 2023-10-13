@@ -13,6 +13,8 @@ function _create () {
         const lineSplit = item.split(',')
         const iva = lineSplit[4] === '' ? 0 : parseInt(lineSplit[4])
         const igic = lineSplit[5] === '' ? 0 : parseInt(lineSplit[5])
+        const bruto = parseInt(lineSplit[2])
+        const neto = parseInt(lineSplit[3])
 
         if(isNaN(igic) || isNaN(iva)){
           return [header]
@@ -20,6 +22,10 @@ function _create () {
 
         if ((iva !== 0 && igic !== 0) || iva === 0 && igic === 0) {
           console.log('no tiendo')
+          return [header, final]
+        }
+
+        if (calculateNeto({bruto, iva, igic}) !== neto ) {
           return [header, final]
         }
         final.push(row)
