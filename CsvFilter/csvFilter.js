@@ -9,7 +9,7 @@ function _create () {
         return []
       }
 
-      rows.forEach((row, index) => {
+      rows.forEach(row => {
         const lineSplit = row.split(',')
         const iva = lineSplit[4] === '' ? 0 : parseInt(lineSplit[4])
         const igic = lineSplit[5] === '' ? 0 : parseInt(lineSplit[5])
@@ -33,6 +33,7 @@ function _create () {
         if (cif !== '' && nif !== '') {
           return [header, finalRows]
         }
+
         finalRows.push(row)
       })
       return [header, finalRows]
