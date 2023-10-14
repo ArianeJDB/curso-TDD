@@ -16,9 +16,18 @@ describe('Fibonacci calculator in', () => {
 
     test('third iteration, returns 1', async () => {
 
-        const result = fibonacciCalculator.calculate(1)
+        const result = fibonacciCalculator.calculate(2)
 
-        const expectedReturn = fibonacciCalculator.calculate(0) + fibonacciCalculator.calculate(1)
-        expect(result).toBe(expectedReturn)
+        const expectedReturn1 = fibonacciCalculator.calculate(0) + fibonacciCalculator.calculate(1)
+
+        expect(result).toBe(expectedReturn1)
+    });
+
+    test('fourth iteration, returns 2', async () => {
+
+        const result = fibonacciCalculator.calculate(3)
+
+        const expectedReturn2 = fibonacciCalculator.calculate(2) + fibonacciCalculator.calculate(1)
+        expect(result).toBe(expectedReturn2)
     });
 });
