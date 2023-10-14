@@ -3,8 +3,9 @@ export const FibonacciCalculator = {
 }
 
 function _create () {
-  function calculate () {
-    return 0
+  function calculate (iteration) {
+    if (iteration === 0) return 0
+    return 1
   }
 
   return {
