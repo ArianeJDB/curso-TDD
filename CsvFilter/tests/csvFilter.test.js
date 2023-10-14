@@ -34,8 +34,8 @@ describe('CSV Filter', () => {
         });
     })
 
-    describe('when file has more than one recipe', () => {
-        test('and all are correct, returns the same rows', async () => {
+    describe('when file has more than one recipe and', () => {
+        test('all are correct, returns the same rows', async () => {
             const rows = [
                 '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,',
                 '1,02/05/2021,1000,790,21,,ACER Laptop,B763333334,'
@@ -46,7 +46,7 @@ describe('CSV Filter', () => {
             expect(result).toStrictEqual([header, rows])
         });
 
-        test('and header is empty and all rows are correct, returns []', async () => {
+        test('header is empty and all rows are correct, returns []', async () => {
             const header = ''
             const rows = [
                 '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,',
@@ -58,7 +58,7 @@ describe('CSV Filter', () => {
             expect(result).toStrictEqual([])
         });
 
-        test('and one row is correct and other is wrong, returns only the correct row', async () => {
+        test('one row is correct and other is wrong, returns only the correct row', async () => {
             const rows = [
                 '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,',
                 '1,02/05/2021,1000,790,21,4,ACER Laptop,B763333334,'
@@ -70,7 +70,7 @@ describe('CSV Filter', () => {
             expect(result).toStrictEqual([header, expectedRow])
         });
 
-        test('two rows are correct and other two are wrong, returns only the two correct row', async () => {
+        test('rows are correct and other two are wrong, returns only the two correct row', async () => {
             const rows = [
                 '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,',
                 '1,02/05/2021,1000,790,vhj,,ACER Laptop,B76430134,',
@@ -83,5 +83,19 @@ describe('CSV Filter', () => {
             const expectedRows = [rows[0], rows [2]]
             expect(result).toStrictEqual([header, expectedRows])
         });
+
+        test('rows are all wrong, returns empty row', async () => {
+            const rows = [
+                '1,02/05/2021,1000,790,21,4,ACER Laptop,B76430134,',
+                '1,02/05/2021,1000,790,vhj,,ACER Laptop,B76430134,',
+                '1,02/05/2021,1000,790,21,4,ACER Laptop,B763333334,',
+                '1,02/05/2021,1000,790,21,,ACER Laptop,B76430134,N789789'
+            ]
+
+            const result = csvFilter.filter({header, rows})
+
+            expect(result).toStrictEqual([])
+        });
+
     });
 });
