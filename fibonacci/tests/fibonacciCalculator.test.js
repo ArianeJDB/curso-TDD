@@ -7,6 +7,7 @@ describe('Fibonacci calculator in', () => {
 
         expect(result).toBe(0)
     });
+
     test('second iteration, returns 1', async () => {
 
     const result = fibonacciCalculator.calculate(1)
@@ -14,37 +15,17 @@ describe('Fibonacci calculator in', () => {
     expect(result).toBe(1)
     });
 
-    test('third iteration, returns 1', async () => {
+    test.each([
+        [2, 1, 0],
+        [3, 2, 1],
+        [4, 3, 2],
+        [5, 4, 3],
+        [6, 5, 4],
+        [7, 6, 5]
+    ])('iteration %s, returns %s', async (iteration, iterationMinus1, iterationMinus2) => {
+        const fibonacci = fibonacciCalculator.calculate(iteration)
 
-        const result = fibonacciCalculator.calculate(2)
-
-        const expectedReturn1 = fibonacciCalculator.calculate(0) + fibonacciCalculator.calculate(1)
-
-        expect(result).toBe(expectedReturn1)
-    });
-
-    test('fourth iteration, returns 2', async () => {
-
-        const result = fibonacciCalculator.calculate(3)
-
-        const expectedReturn2 = fibonacciCalculator.calculate(2) + fibonacciCalculator.calculate(1)
-        expect(result).toBe(expectedReturn2)
-    });
-
-    test('fifth iteration, returns 5', async () => {
-
-        const result = fibonacciCalculator.calculate(4)
-
-        const expectedReturn = fibonacciCalculator.calculate(3) + fibonacciCalculator.calculate(2)
-        expect(result).toBe(expectedReturn)
-    });
-
-    test('sixth iteration, returns 5', async () => {
-
-        const result = fibonacciCalculator.calculate(5)
-
-        const expectedReturn = fibonacciCalculator.calculate(4) + fibonacciCalculator.calculate(3)
-        expect(result).toBe(expectedReturn)
+        const expectedResult = fibonacciCalculator.calculate(iterationMinus1) + fibonacciCalculator.calculate(iterationMinus2)
+        expect(fibonacci).toBe(expectedResult)
     });
 });
-//expect(fibonacci(3)).toBe(fibonacci(1) + fibonacci(2));
