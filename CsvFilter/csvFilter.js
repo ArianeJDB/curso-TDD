@@ -46,6 +46,7 @@ function _create () {
 
     return bruto - brutoTaxApplied
   }
+
   return {
     filter
   }
